@@ -40,8 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BLLPessoaPF.cs" />
+    <Compile Include="BLLEndereco.cs" />
+    <Compile Include="BLLEstadoCivil.cs" />
+    <Compile Include="BLLPessoa.cs" />
+    <Compile Include="BLLSexo.cs" />
+    <Compile Include="BLLTipoEndereco.cs" />
     <Compile Include="BLLTipoPessoa.cs" />
+    <Compile Include="BLLTipoUsuario.cs" />
     <Compile Include="BLLUSuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

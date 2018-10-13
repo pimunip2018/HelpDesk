@@ -32,7 +32,7 @@ namespace HelpDesk.Desktop
             {
                
                 TipoUsuario modelo = new TipoUsuario();
-                modelo.Nome = txtDescricao.Text;
+                modelo.Descricao = txtDescricao.Text;
                 DALConexao dal = new DALConexao();
                 BLLTipoPessoa bll = new BLLTipoPessoa(dal);
 
@@ -44,7 +44,7 @@ namespace HelpDesk.Desktop
                 }
                 else
                 {
-                    modelo.TipoPessoaId = Convert.ToInt32(txtCodigo.Text);
+                    modelo.TipoUsuarioId = Convert.ToInt32(txtCodigo.Text);
                     bll.Alterar(modelo);
                     MessageBox.Show("Tipo de Pessoa atualizado com sucesso!");
                 }

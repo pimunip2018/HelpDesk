@@ -29,5 +29,10 @@ namespace HelpDesk.BLL
             return Logar;
         }
 
+        public void Desativar(int cpf)
+        {
+            DALUsuario DalObj = new DALUsuario(Conexao);
+            DalObj.Desativar(cpf);
+        }
     }
 }

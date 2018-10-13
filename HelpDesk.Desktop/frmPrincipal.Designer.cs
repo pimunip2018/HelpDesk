@@ -288,7 +288,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel BarraTitulo;
         private System.Windows.Forms.PictureBox btnSlide;
-        private System.Windows.Forms.Panel panelContenedor;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox iconeMinimizar;
         private System.Windows.Forms.PictureBox iconeMaximizar;
@@ -299,6 +298,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
+        public System.Windows.Forms.Panel panelContenedor;
     }
 }
 

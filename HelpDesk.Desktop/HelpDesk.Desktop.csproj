@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Correios.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Correios.CEP.Net.1.1.6\lib\Correios.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
     </Reference>
@@ -53,7 +56,12 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Web.Services" />
+    <Reference Include="System.Windows.Forms.Ribbon">
+      <HintPath>..\..\..\..\..\Users\qxe1574\Downloads\Ribbon_5.0_2018-03-26\Net 4.6.1\System.Windows.Forms.Ribbon.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -92,6 +100,12 @@
     <Compile Include="frmConsultaTipoPessoa.Designer.cs">
       <DependentUpon>frmConsultaTipoPessoa.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmHelpDesk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmHelpDesk.Designer.cs">
+      <DependentUpon>frmHelpDesk.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -110,21 +124,16 @@
     <Compile Include="frmPrincipal.Designer.cs">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmRelatorioTipoPessoa.cs">
+    <Compile Include="frmRelatorioUsuario.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmRelatorioTipoPessoa.Designer.cs">
-      <DependentUpon>frmRelatorioTipoPessoa.cs</DependentUpon>
+    <Compile Include="frmRelatorioUsuario.Designer.cs">
+      <DependentUpon>frmRelatorioUsuario.cs</DependentUpon>
     </Compile>
     <Compile Include="help_deskDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>help_deskDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="help_deskDataSet1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>help_deskDataSet1.xsd</DependentUpon>
     </Compile>
     <Compile Include="Produtos.cs">
       <SubType>Form</SubType>
@@ -150,6 +159,9 @@
     <EmbeddedResource Include="frmConsultaTipoPessoa.resx">
       <DependentUpon>frmConsultaTipoPessoa.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmHelpDesk.resx">
+      <DependentUpon>frmHelpDesk.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,8 +171,8 @@
     <EmbeddedResource Include="frmPrincipal.resx">
       <DependentUpon>frmPrincipal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmRelatorioTipoPessoa.resx">
-      <DependentUpon>frmRelatorioTipoPessoa.cs</DependentUpon>
+    <EmbeddedResource Include="frmRelatorioUsuario.resx">
+      <DependentUpon>frmRelatorioUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Produtos.resx">
       <DependentUpon>Produtos.cs</DependentUpon>
@@ -175,6 +187,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="rptCliente.rdlc" />
     <EmbeddedResource Include="rptTipoUsuario.rdlc" />
     <None Include="help_deskDataSet.xsc">
       <DependentUpon>help_deskDataSet.xsd</DependentUpon>
@@ -186,17 +199,6 @@
     </None>
     <None Include="help_deskDataSet.xss">
       <DependentUpon>help_deskDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="help_deskDataSet1.xsc">
-      <DependentUpon>help_deskDataSet1.xsd</DependentUpon>
-    </None>
-    <None Include="help_deskDataSet1.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>help_deskDataSet1.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="help_deskDataSet1.xss">
-      <DependentUpon>help_deskDataSet1.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

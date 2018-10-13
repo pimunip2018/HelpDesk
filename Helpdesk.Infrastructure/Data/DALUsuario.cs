@@ -32,7 +32,19 @@ namespace Helpdesk.Infrastructure.Data
 
         }
 
-        
+        public void Desativar(int cpf)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = Conexao.ObjetoConexao;
+            cmd.CommandText = "[dbo].[spUsuarioDelete]";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Cpf", cpf);
+            Conexao.Conectar();
+            cmd.ExecuteNonQuery();
+            Conexao.Desconectar();
+        }
+
+       
 
     }
 }

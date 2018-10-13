@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace HelpDesk.Domain.Modelo
 {
-    public class TipoUsuario
+    public class TipoPessoa
     {
-        public int TipoUsuarioId { get; set; }
+        public int TipoPessoaId { get; set; }
         public string Descricao { get; set; }
     }
 }

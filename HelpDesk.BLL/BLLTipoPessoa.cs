@@ -21,7 +21,7 @@ namespace HelpDesk.BLL
 
         public void Incluir(TipoUsuario modelo)
         {
-            if (modelo.Nome.Trim().Length == 0)
+            if (modelo.Descricao.Trim().Length == 0)
             {
                 throw new Exception("O nome do Tipo de Pessoa é obrigatório");
             }
@@ -32,11 +32,11 @@ namespace HelpDesk.BLL
 
         public void Alterar(TipoUsuario modelo)
         {
-            if (modelo.TipoPessoaId < 0)
+            if (modelo.TipoUsuarioId < 0)
             {
                 throw new Exception("O código do Tipo de Pessoa é obrigatório");
             }
-            if (modelo.Nome.Trim().Length == 0)
+            if (modelo.Descricao.Trim().Length == 0)
             {
                 throw new Exception("O nome do Tipo de Pessoa é obrigatório");
             }

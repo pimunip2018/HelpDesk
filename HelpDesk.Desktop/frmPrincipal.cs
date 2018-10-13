@@ -88,33 +88,43 @@ namespace HelpDesk.Desktop
         }
 
 
-        private void AbrirFormInPanel(object Formhijo)
+        private void AbrirFormulario<MiForm>() where MiForm : Form, new()
         {
-            if(this.panelContenedor.Controls.Count > 0)
+            Form formulario;
+            formulario = panelContenedor.Controls.OfType<MiForm>().FirstOrDefault();//Busca en la colecion el formulario
+            //si el formulario/instancia no existe
+            if (formulario == null)
             {
-                this.panelContenedor.Controls.RemoveAt(0);
+                formulario = new MiForm();
+                formulario.TopLevel = false;
+                formulario.FormBorderStyle = FormBorderStyle.None;
+                formulario.Dock = DockStyle.Fill;
+                panelContenedor.Controls.Add(formulario);
+                panelContenedor.Tag = formulario;
+                formulario.Show();
+                formulario.BringToFront();
+               
             }
-
-            Form fh = Formhijo as Form;
-            fh.TopLevel = false;
-            fh.Dock = DockStyle.Fill;
-            this.panelContenedor.Controls.Add(fh);
-            this.panelContenedor.Tag = fh;
-            fh.Show();
+            //si el formulario/instancia existe
+            else
+            {
+                formulario.BringToFront();
+            }
         }
+        
         private void btnProduto_Click(object sender, EventArgs e)
         {
-            AbrirFormInPanel(new Produtos());
+            AbrirFormulario<Produtos>();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            AbrirFormInPanel(new frmConsultaPessoa());
+            AbrirFormulario<frmConsultaPessoa>();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            AbrirFormInPanel(new frmRelatorioTipoPessoa());
+            AbrirFormulario<frmRelatorioUsuario>();
         }
 
         private void button2_Click(object sender, EventArgs e)

@@ -41,7 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modelo\Endereco.cs" />
-    <Compile Include="Modelo\PessoaPF.cs" />
+    <Compile Include="Modelo\EstadoCivil.cs" />
+    <Compile Include="Modelo\Pessoa.cs" />
+    <Compile Include="Modelo\Sexo.cs" />
+    <Compile Include="Modelo\TipoEndereco.cs" />
+    <Compile Include="Modelo\TipoPessoa.cs" />
     <Compile Include="Modelo\TipoUsuario.cs" />
     <Compile Include="Modelo\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

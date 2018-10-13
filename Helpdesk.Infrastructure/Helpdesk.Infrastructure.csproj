@@ -48,9 +48,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DALConexao.cs" />
-    <Compile Include="Data\DALPessoaPF.cs" />
+    <Compile Include="Data\DALEndereco.cs" />
+    <Compile Include="Data\DALEstadoCivil.cs" />
+    <Compile Include="Data\DALPessoa.cs" />
+    <Compile Include="Data\DALSexo.cs" />
     <Compile Include="Data\DALTipoPessoa.cs" />
+    <Compile Include="Data\DALTipoUsuario.cs" />
     <Compile Include="Data\DALUsuario.cs" />
+    <Compile Include="Data\DALTipoEndereco.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

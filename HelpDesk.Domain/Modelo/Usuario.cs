@@ -8,14 +8,13 @@ namespace HelpDesk.Domain.Modelo
 {
     public class Usuario
     {
-        public int UsuarioId { get; set; }
+        public int CPF { get; set; }
         public bool Bloqueado { get; set; }
         public int Tentativa { get; set; }
-        public string Senha { get; set; }
-        public int PessoaPFId { get; set; }
-        public string Sexo { get; set; }
-        public PessoaPF PessoaPF { get; set; }
-        public int TipoUsuarioId { get; set; }
+       public int TipoUsuarioId { get; set; }
         public TipoUsuario TipoUsuario { get; set; }
+        public string Senha { get; set; }
+
+
     }
 }

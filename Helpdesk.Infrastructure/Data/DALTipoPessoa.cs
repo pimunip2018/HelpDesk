@@ -21,7 +21,7 @@ namespace Helpdesk.Infrastructure.Data
             cmd.Connection = Conexao.ObjetoConexao;
             cmd.CommandText = "[dbo].[spTipoUsuarioInsert]";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@nome", modelo.Nome);
+            cmd.Parameters.AddWithValue("@nome", modelo.Descricao);
             Conexao.Conectar();
             cmd.ExecuteNonQuery();
             Conexao.Desconectar();
@@ -33,8 +33,8 @@ namespace Helpdesk.Infrastructure.Data
             cmd.Connection = Conexao.ObjetoConexao;
             cmd.CommandText = "[dbo].[spTipoUsuarioUpdate]";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id", modelo.TipoPessoaId);
-            cmd.Parameters.AddWithValue("@nome", modelo.Nome);
+            cmd.Parameters.AddWithValue("@id", modelo.TipoUsuarioId);
+            cmd.Parameters.AddWithValue("@nome", modelo.Descricao);
             Conexao.Conectar();
             cmd.ExecuteNonQuery();
             Conexao.Desconectar();
@@ -77,8 +77,8 @@ namespace Helpdesk.Infrastructure.Data
             if(registro.HasRows)
             {
                 registro.Read();
-                modelo.TipoPessoaId = Convert.ToInt32(registro["TipoUsuarioId"]);
-                modelo.Nome = Convert.ToString(registro["Nome"]);
+                modelo.TipoUsuarioId = Convert.ToInt32(registro["TipoUsuarioId"]);
+                modelo.Descricao = Convert.ToString(registro["Nome"]);
             }
             return modelo;
         }
