@@ -29,6 +29,7 @@ namespace Helpdesk.Infrastructure.Data
             cmd.Parameters.AddWithValue("@Nome", modelo.Nome);
             cmd.Parameters.AddWithValue("@DtNasc", modelo.DtNasc);
             cmd.Parameters.AddWithValue("@Telefone", modelo.Telefone);
+            cmd.Parameters.AddWithValue("@TelefoneEmpresa", modelo.TelefoneEmpresa);
             cmd.Parameters.AddWithValue("@Ramal", modelo.Ramal);
             cmd.Parameters.AddWithValue("@TelefoneCelular", modelo.TelefoneCelular);
             cmd.Parameters.AddWithValue("@email", modelo.Email);
@@ -53,6 +54,7 @@ namespace Helpdesk.Infrastructure.Data
             cmd.Parameters.AddWithValue("@Nome", modelo.Nome);
             cmd.Parameters.AddWithValue("@DtNasc", modelo.DtNasc);
             cmd.Parameters.AddWithValue("@Telefone", modelo.Telefone);
+            cmd.Parameters.AddWithValue("@TelefoneEmpresa", modelo.TelefoneEmpresa);
             cmd.Parameters.AddWithValue("@Ramal", modelo.Ramal);
             cmd.Parameters.AddWithValue("@TelefoneCelular", modelo.TelefoneCelular);
             cmd.Parameters.AddWithValue("@email", modelo.Email);
@@ -67,19 +69,19 @@ namespace Helpdesk.Infrastructure.Data
             Conexao.Desconectar();
         }
 
-        public void Excluir(int id)
+        public void Desativar(string cpf)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = Conexao.ObjetoConexao;
-            cmd.CommandText = "[dbo].[spTipoUsuarioDelete]";
+            cmd.CommandText = "[dbo].[spUsuarioDesativar]";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@cpf", cpf);
             Conexao.Conectar();
             cmd.ExecuteNonQuery();
             Conexao.Desconectar();
         }
 
-        public DataTable Localizar(string cpf, string nome, int bloqueado, string cargo, int tipousuario, int sexoId)
+        public DataTable Localizar(string cpf, string nome, int bloqueado, int tipousuario, int sexoId)
         {
 
             DataTable tabela = new DataTable();
@@ -88,7 +90,6 @@ namespace Helpdesk.Infrastructure.Data
             cm.Parameters.AddWithValue("@cpf", Convert.ToString(cpf));
             cm.Parameters.AddWithValue("@nome", Convert.ToString(nome));
             cm.Parameters.AddWithValue("@bloqueado", Convert.ToInt32(bloqueado));
-            cm.Parameters.AddWithValue("@cargo", Convert.ToString(cargo));
             cm.Parameters.AddWithValue("@tipousuario", Convert.ToInt32(tipousuario));
             cm.Parameters.AddWithValue("@sexo", Convert.ToInt32(sexoId));
             SqlDataAdapter da = new SqlDataAdapter(cm);
@@ -96,23 +97,6 @@ namespace Helpdesk.Infrastructure.Data
             return tabela;
         }
 
-        public TipoUsuario CarregaPessoaPF(int id)
-        {
-            TipoUsuario modelo = new TipoUsuario();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = Conexao.ObjetoConexao;
-            cmd.CommandText = "[dbo].[spPessoaPFLocaliza] ";
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Id", id);
-            Conexao.Conectar();
-            SqlDataReader registro = cmd.ExecuteReader();
-            if (registro.HasRows)
-            {
-                registro.Read();
-                modelo.TipoUsuarioId = Convert.ToInt32(registro["PessoaPFId"]);
-                modelo.Descricao = Convert.ToString(registro["Nome"]);
-            }
-            return modelo;
-        }
+       
     }
 }

@@ -30,22 +30,21 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmHelpDesk));
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.ribbonItemGroup1 = new System.Windows.Forms.RibbonItemGroup();
             this.ribbonPanel1 = new System.Windows.Forms.RibbonPanel();
             this.ribbonUpDown1 = new System.Windows.Forms.RibbonUpDown();
             this.ribbon1 = new System.Windows.Forms.Ribbon();
-            this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
-            this.ribbonTab2 = new System.Windows.Forms.RibbonTab();
-            this.ribbonTab3 = new System.Windows.Forms.RibbonTab();
             this.ribbonOrbRecentItem1 = new System.Windows.Forms.RibbonOrbRecentItem();
+            this.ribbonTab1 = new System.Windows.Forms.RibbonTab();
             this.ribbonPanelPessoa = new System.Windows.Forms.RibbonPanel();
             this.btnPessoa = new System.Windows.Forms.RibbonButton();
             this.ribbonPanelEquipamento = new System.Windows.Forms.RibbonPanel();
             this.btnEquipamentos = new System.Windows.Forms.RibbonButton();
             this.ribbonPanelFuncao = new System.Windows.Forms.RibbonPanel();
             this.btnFuncao = new System.Windows.Forms.RibbonButton();
+            this.ribbonTab2 = new System.Windows.Forms.RibbonTab();
+            this.ribbonTab3 = new System.Windows.Forms.RibbonTab();
             this.ribbonTabHelpDesk = new System.Windows.Forms.RibbonTab();
             this.ribbonPanelAbertura = new System.Windows.Forms.RibbonPanel();
             this.ribbonButton1 = new System.Windows.Forms.RibbonButton();
@@ -57,34 +56,23 @@
             this.ribbonPanelSair = new System.Windows.Forms.RibbonPanel();
             this.ribbonButtonsair = new System.Windows.Forms.RibbonButton();
             this.statusStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripProgressBar1});
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 579);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(894, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripProgressBar1
+            // toolStripStatusLabel1
             // 
-            this.toolStripProgressBar1.Name = "toolStripProgressBar1";
-            this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(0, 176);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(894, 295);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 3;
-            this.pictureBox1.TabStop = false;
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // ribbonItemGroup1
             // 
@@ -138,24 +126,6 @@
             this.ribbon1.Text = "ribbonMenu";
             this.ribbon1.ThemeColor = System.Windows.Forms.RibbonTheme.Halloween;
             // 
-            // ribbonTab1
-            // 
-            this.ribbonTab1.Name = "ribbonTab1";
-            this.ribbonTab1.Panels.Add(this.ribbonPanelPessoa);
-            this.ribbonTab1.Panels.Add(this.ribbonPanelEquipamento);
-            this.ribbonTab1.Panels.Add(this.ribbonPanelFuncao);
-            this.ribbonTab1.Text = "Cadastro";
-            // 
-            // ribbonTab2
-            // 
-            this.ribbonTab2.Name = "ribbonTab2";
-            this.ribbonTab2.Text = "Consulta";
-            // 
-            // ribbonTab3
-            // 
-            this.ribbonTab3.Name = "ribbonTab3";
-            this.ribbonTab3.Text = "Relatório";
-            // 
             // ribbonOrbRecentItem1
             // 
             this.ribbonOrbRecentItem1.Image = ((System.Drawing.Image)(resources.GetObject("ribbonOrbRecentItem1.Image")));
@@ -163,6 +133,14 @@
             this.ribbonOrbRecentItem1.Name = "ribbonOrbRecentItem1";
             this.ribbonOrbRecentItem1.SmallImage = ((System.Drawing.Image)(resources.GetObject("ribbonOrbRecentItem1.SmallImage")));
             this.ribbonOrbRecentItem1.Text = "ribbonOrbRecentItem1";
+            // 
+            // ribbonTab1
+            // 
+            this.ribbonTab1.Name = "ribbonTab1";
+            this.ribbonTab1.Panels.Add(this.ribbonPanelPessoa);
+            this.ribbonTab1.Panels.Add(this.ribbonPanelEquipamento);
+            this.ribbonTab1.Panels.Add(this.ribbonPanelFuncao);
+            this.ribbonTab1.Text = "Cadastro";
             // 
             // ribbonPanelPessoa
             // 
@@ -190,7 +168,9 @@
             this.btnEquipamentos.Image = ((System.Drawing.Image)(resources.GetObject("btnEquipamentos.Image")));
             this.btnEquipamentos.LargeImage = ((System.Drawing.Image)(resources.GetObject("btnEquipamentos.LargeImage")));
             this.btnEquipamentos.Name = "btnEquipamentos";
+            this.btnEquipamentos.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnEquipamentos.SmallImage")));
             this.btnEquipamentos.Text = "ribbonButton1";
+            this.btnEquipamentos.Click += new System.EventHandler(this.btnEquipamentos_Click);
             // 
             // ribbonPanelFuncao
             // 
@@ -205,6 +185,17 @@
             this.btnFuncao.Name = "btnFuncao";
             this.btnFuncao.SmallImage = ((System.Drawing.Image)(resources.GetObject("btnFuncao.SmallImage")));
             this.btnFuncao.Text = "ribbonButton2";
+            this.btnFuncao.Click += new System.EventHandler(this.btnFuncao_Click);
+            // 
+            // ribbonTab2
+            // 
+            this.ribbonTab2.Name = "ribbonTab2";
+            this.ribbonTab2.Text = "Consulta";
+            // 
+            // ribbonTab3
+            // 
+            this.ribbonTab3.Name = "ribbonTab3";
+            this.ribbonTab3.Text = "Relatório";
             // 
             // ribbonTabHelpDesk
             // 
@@ -283,15 +274,18 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(894, 601);
             this.Controls.Add(this.ribbon1);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.statusStrip1);
+            this.IsMdiContainer = true;
             this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmHelpDesk";
             this.Text = "HELP-DESK";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.frmHelpDesk_Load);
+            this.Resize += new System.EventHandler(this.frmHelpDesk_Resize);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -299,8 +293,6 @@
 
         #endregion
         private System.Windows.Forms.StatusStrip statusStrip1;
-        private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
-        private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.RibbonItemGroup ribbonItemGroup1;
         private System.Windows.Forms.RibbonPanel ribbonPanel1;
         private System.Windows.Forms.RibbonUpDown ribbonUpDown1;
@@ -325,5 +317,6 @@
         private System.Windows.Forms.RibbonTab ribbonTabSobre;
         private System.Windows.Forms.RibbonPanel ribbonPanelSair;
         private System.Windows.Forms.RibbonButton ribbonButtonsair;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

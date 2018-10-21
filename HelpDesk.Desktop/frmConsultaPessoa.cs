@@ -15,17 +15,15 @@ namespace HelpDesk.Desktop
 {
     public partial class frmConsultaPessoa : Form
     {
-
-
         public frmConsultaPessoa()
         {
             InitializeComponent();
         }
-
         public string operacao = "";
+        public int tipoPessoa;
         DALConexao dal = new DALConexao();
 
-        public void MostrarDados(string cpf, string nome, int bloquado, string cargo, int tipousuario, int sexo)
+        public void MostrarDados(string cpf, string nome, int bloquado, int tipousuario, int sexo)
         {
 
             DALConexao dal = new DALConexao();
@@ -41,13 +39,8 @@ namespace HelpDesk.Desktop
                 nome = null;
             }
 
-            if (cargo == "")
-            {
-                cargo = null;
-            }
-
-            dtDados.DataSource = bll.Localizar(cpf, nome, bloquado, cargo, tipousuario, sexo);
-            EsconderColuna();
+            dtDados.DataSource = bll.Localizar(cpf, nome, bloquado, tipousuario, sexo);
+            EsconderColunaPessoa();
             if (dtDados.RowCount > 0)
             {
                 dtDados.CurrentCell = dtDados.Rows[0].Cells[1];
@@ -55,30 +48,111 @@ namespace HelpDesk.Desktop
 
 
         }
-
-        public void EsconderColuna()
+        public void EsconderColunaPessoa()
         {
             dtDados.Columns["SexoId"].Visible = false;
             dtDados.Columns["TelefoneCelular"].Visible = false;
             dtDados.Columns["Sexo"].Visible = false;
             dtDados.Columns["EstadoCivilId"].Visible = false;
             dtDados.Columns["EstadoCivil"].Visible = false;
+
         }
+
+        public void EsconderColunaEndereco()
+        {
+            dtEndereco.Columns["EnderecoId"].Visible = false;
+            dtEndereco.Columns["CPF"].Visible = false;
+            dtEndereco.Columns["TipoEnderecoId"].Visible = false;
+        }
+        private void CarregarEndereco()
+        {
+            BLLEndereco bll = new BLLEndereco(dal);
+            dtEndereco.DataSource = bll.CarregaEndereco(txtCpfEdit.Text);
+            dtEndereco.Refresh();
+            dtEndereco.Update();
+            EsconderColunaEndereco();
+        }
+        private void limpartelaEndereco(Control.ControlCollection controles)
+        {
+            foreach (Control ctrl in controles)
+            {
+                //Se o contorle for um TextBox...
+                if (ctrl is TextBox)
+                {
+                    ((TextBox)(ctrl)).Text = String.Empty;
+                }
+
+                if (ctrl is MaskedTextBox)
+                {
+                    ((MaskedTextBox)(ctrl)).Text = String.Empty;
+                }
+
+            }
+        }
+        public void ApenasNumero(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar))
+            {
+                //Atribui True no Handled para cancelar o evento
+                e.Handled = true;
+            }
+        }
+        public void habilitarCampo()
+        {
+            txtCpfEdit.Enabled = true;
+            txtDtNascEdit.Enabled = true;
+        }
+        public void desabilitarCampo()
+        {
+            txtCpfEdit.Enabled = false;
+            txtDtNascEdit.Enabled = false;
+        }
+
+
+        private void ValidarCampos(object obj)
+        {
+            var erros = ValidacaoCampos.getValidationErros(obj);
+            foreach (var error in erros)
+            {
+                throw new Exception(error.ErrorMessage);
+            }
+        }
+
+        private string GeraSenha()
+        {
+            string guid = Guid.NewGuid().ToString().Replace("-", "");
+
+            Random clsRan = new Random();
+            Int32 tamanhoSenha = clsRan.Next(6, 18);
+
+            string senha = "";
+            for (Int32 i = 0; i <= tamanhoSenha; i++)
+            {
+                senha += guid.Substring(clsRan.Next(1, guid.Length), 1);
+            }
+
+            return senha;
+        }
+
         private void frmCadastroUsuario_Load(object sender, EventArgs e)
         {
             CarregarCombos();
-            this.MostrarDados(txtCpf.Text, txtNome.Text, Convert.ToInt32(cmbAtivo.SelectedIndex), cmbCargo.SelectedText, Convert.ToInt32(cmbTipoUsuario.SelectedValue), Convert.ToInt32(cmbSexo.SelectedValue));
+            this.MostrarDados(txtCpf.Text, txtNome.Text, Convert.ToInt32(cmbAtivo.SelectedIndex), Convert.ToInt32(cmbTipoUsuario.SelectedValue), Convert.ToInt32(cmbSexo.SelectedValue));
 
         }
-
-        private void btnPesquisar_Click(object sender, EventArgs e)
+        private void tabControlBusca_Click(object sender, EventArgs e)
         {
-            this.MostrarDados(txtCpf.Text, txtNome.Text, Convert.ToInt32(cmbAtivo.SelectedIndex), cmbCargo.SelectedText, Convert.ToInt32(cmbTipoUsuario.SelectedValue), Convert.ToInt32(cmbSexo.SelectedValue));
-        }
+            
+            if (tabControlBusca.SelectedTab == tabPageBusca)
+            {
+                btnNovo_Click(sender, e);
 
+            }
+
+
+        }
         private void dtDados_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-
+        {   
             dtDados.DefaultCellStyle.Font = new Font("Tohoma", 10);
             dtDados.Columns["Nome"].Width = 250;
             dtDados.Columns["CPF"].Width = 100;
@@ -87,13 +161,34 @@ namespace HelpDesk.Desktop
             dtDados.Columns["Telefone"].Width = 100;
             dtDados.Columns["Email"].Width = 160;
         }
-
-
+        private void dtEndereco_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            operacao = "editarEndereco";
+            if (dtEndereco.SelectedRows.Count > 0)
+            {
+                btnNovoEndereco.Enabled = false;
+                btnAdicionar.Enabled = true;
+                cmbTipo.SelectedValue = Convert.ToInt32(dtEndereco.CurrentRow.Cells["TipoEnderecoId"].Value.ToString());
+                txtCEPEdit.Text = dtEndereco.CurrentRow.Cells["CEP"].Value.ToString();
+                txtEnderecoEdit.Text = dtEndereco.CurrentRow.Cells["Logradouro"].Value.ToString();
+                txtNumeroEdit.Text = dtEndereco.CurrentRow.Cells["Numero"].Value.ToString();
+                txtComplementoEdit.Text = dtEndereco.CurrentRow.Cells["Complemento"].Value.ToString();
+                txtBairroEdit.Text = dtEndereco.CurrentRow.Cells["Bairro"].Value.ToString();
+                txtCidadeEdit.Text = dtEndereco.CurrentRow.Cells["Cidade"].Value.ToString();
+                txtEstadoEdit.Text = dtEndereco.CurrentRow.Cells["UF"].Value.ToString();
+                btnAdicionar.Enabled = true;
+                btnNovoEndereco.Enabled = true;
+                btnExcluirEndereco.Enabled = true;
+            }
+        }
+        
+        #region Botões da Busca
         private void btnEditar_Click(object sender, EventArgs e)
         {
             operacao = "editar";
 
             desabilitarCampo();
+
 
             if (cmbSexo.SelectedValue == null)
             {
@@ -111,6 +206,7 @@ namespace HelpDesk.Desktop
                 txtDtNascEdit.Text = dtDados.CurrentRow.Cells["DtNasc"].Value.ToString();
                 txtRamalEdit.Text = dtDados.CurrentRow.Cells["Ramal"].Value.ToString();
                 txtTelefoneEdit.Text = dtDados.CurrentRow.Cells["Telefone"].Value.ToString();
+                txtTelefoneEmpresa.Text = dtDados.CurrentRow.Cells["TelefoneEmpresa"].Value.ToString();
                 txtCelularEdit.Text = dtDados.CurrentRow.Cells["TelefoneCelular"].Value.ToString();
                 txtEmailEdit.Text = dtDados.CurrentRow.Cells["Email"].Value.ToString();
                 txtRazaoSocialEdit.Text = dtDados.CurrentRow.Cells["RazaoSocial"].Value.ToString();
@@ -118,13 +214,21 @@ namespace HelpDesk.Desktop
                 txtDtFundacaoEdit.Text = dtDados.CurrentRow.Cells["DtFundacao"].Value.ToString();
                 txtCargoEdit.Text = dtDados.CurrentRow.Cells["Cargo"].Value.ToString();
 
-                this.MostrarDados(txtCpf.Text, txtNome.Text, Convert.ToInt32(cmbAtivo.SelectedValue), cmbCargo.SelectedText, Convert.ToInt32(cmbTipoUsuario.SelectedValue), Convert.ToInt32(cmbSexo.SelectedValue));
+                this.MostrarDados(txtCpf.Text, txtNome.Text, Convert.ToInt32(cmbAtivo.SelectedValue), Convert.ToInt32(cmbTipoUsuario.SelectedValue), Convert.ToInt32(cmbSexo.SelectedValue));
 
                 dtDados.CurrentCell = dtDados.Rows[0].Cells[1];
 
                 CarregarTipoEndereco();
                 CarregarEndereco();
+                if (dtEndereco.SelectedRows.Count > 0)
+                {
+                    btnSalvar.Enabled = true;
+                }
 
+                else
+                {
+                    btnSalvar.Enabled = false;
+                }
 
             }
             else
@@ -132,19 +236,60 @@ namespace HelpDesk.Desktop
                 MessageBox.Show("Por favor, selecione um registro!");
             }
         }
-
-        private void CarregarEndereco()
-        {
-            BLLEndereco bll = new BLLEndereco(dal);
-            dtEndereco.DataSource = bll.CarregaEndereco(txtCpfEdit.Text);
-            dtEndereco.Refresh();
-            dtEndereco.Update();
-        }
         private void btnNovo_Click(object sender, EventArgs e)
         {
-            operacao = "novo";
+            frmTipoPessoa frm = new frmTipoPessoa();
+            frm.ShowDialog();
+            tipoPessoa = frm.tipoPessoa;
+            operacao = "inserir";
+            if (dtEndereco.SelectedRows.Count > 0)
+            {
+                btnSalvar.Enabled = true;
+            }
+            else
+            {
+                btnSalvar.Enabled = false;
+            }
+            tabControlBusca.SelectedTab = tabPageCadastro;
+            limpartela(tabPageCadastro.Controls);
+            habilitarCampo();
+
+
+            if (cmbSexo.SelectedValue == null)
+            {
+                CarregarSexo();
+            }
+        }
+        private void btnExcluir_Click(object sender, EventArgs e)
+        {
+
+            //try
+            //{
+
+            //    DialogResult d = MessageBox.Show("Deseja excluir o registro?", "Aviso", MessageBoxButtons.YesNo);
+            //    if (d.ToString() == "Yes")
+            //    {
+            //        DALConexao dal = new DALConexao();
+            //        BLLUSuario bll = new BLLUSuario(dal);
+
+            //        bll.Desativar(Convert.ToInt32(dtDados.CurrentRow.Cells["CPF"].Value.ToString()));
+            //        this.MostrarDados(txtCpf.Text, txtNome.Text, Convert.ToInt32(cmbAtivo.SelectedValue), cmbCargo.SelectedText, Convert.ToInt32(cmbTipoUsuario.SelectedValue), Convert.ToInt32(cmbSexo.SelectedValue));
+            //    }
+            //}
+            //catch
+            //{
+
+            //    MessageBox.Show("Impossível excluir o registro. \n O registro está sendo utilizado em outra operação");
+
+            //}
         }
 
+        private void btnPesquisar_Click(object sender, EventArgs e)
+        {
+            this.MostrarDados(txtCpf.Text, txtNome.Text, Convert.ToInt32(cmbAtivo.SelectedIndex), Convert.ToInt32(cmbTipoUsuario.SelectedValue), Convert.ToInt32(cmbSexo.SelectedValue));
+        }
+        #endregion
+        #region Carregar_Combos
         public void CarregarCombos()
         {
             CarregarTipoUsuario();
@@ -167,7 +312,6 @@ namespace HelpDesk.Desktop
             cmbTipoUsuario.DisplayMember = "Descricao";
             cmbTipoUsuario.ValueMember = "TipoUsuarioId";
         }
-
         public void CarregarTipoEndereco()
         {
             DALConexao dal = new DALConexao();
@@ -185,49 +329,6 @@ namespace HelpDesk.Desktop
             cmbEstadoCivil.DisplayMember = "Descricao";
             cmbEstadoCivil.ValueMember = "EstadoCivilId";
         }
-
-        private void tabControlBusca_Click(object sender, EventArgs e)
-        {
-            if (tabControlBusca.SelectedTab == tabPageCadastro)
-            {
-                if (operacao == "")
-                {
-                    tabControlBusca.SelectedTab = tabPageBusca;
-                }
-
-            }
-
-            if (tabControlBusca.SelectedTab == tabPageBusca)
-            {
-                if (operacao != "novo")
-                {
-                    operacao = "";
-                }
-
-            }
-
-
-        }
-        public void ApenasNumero(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar))
-            {
-                //Atribui True no Handled para cancelar o evento
-                e.Handled = true;
-            }
-        }
-        public void habilitarCampo()
-        {
-            txtCpfEdit.Enabled = true;
-            txtDtNascEdit.Enabled = true;
-        }
-
-        public void desabilitarCampo()
-        {
-            txtCpfEdit.Enabled = false;
-            txtDtNascEdit.Enabled = false;
-        }
-
         public void CarregarSexo()
         {
             DALConexao dal = new DALConexao();
@@ -240,7 +341,8 @@ namespace HelpDesk.Desktop
             cmbSexo.ValueMember = "SexoId";
 
         }
-
+        #endregion
+        #region txt Somente Números
         private void txtCEP_Leave(object sender, EventArgs e)
         {
             try
@@ -255,7 +357,7 @@ namespace HelpDesk.Desktop
                         txtEstadoEdit.Text = ds.Tables[0].Rows[0]["uf"].ToString().Trim();
                         txtCidadeEdit.Text = ds.Tables[0].Rows[0]["cidade"].ToString().Trim();
                         txtBairroEdit.Text = ds.Tables[0].Rows[0]["bairro"].ToString().Trim();
-                        txtEnderecoEdit.Text = ds.Tables[0].Rows[0]["tipo_logradouro"].ToString().Trim() + ds.Tables[0].Rows[0]["logradouro"].ToString().Trim();
+                        txtEnderecoEdit.Text = ds.Tables[0].Rows[0]["tipo_logradouro"].ToString().Trim() + " " + ds.Tables[0].Rows[0]["logradouro"].ToString().Trim();
 
                     }
                 }
@@ -315,43 +417,8 @@ namespace HelpDesk.Desktop
             this.ApenasNumero(sender, e);
         }
 
-        private void btnNovo_Click_1(object sender, EventArgs e)
-        {
-            operacao = "inserir";
-            limpartela(tabPageCadastro.Controls);
-            habilitarCampo();
-
-
-            if (cmbSexo.SelectedValue == null)
-            {
-                CarregarSexo();
-            }
-        }
-
-        private void btnExcluir_Click(object sender, EventArgs e)
-        {
-
-            //try
-            //{
-
-            //    DialogResult d = MessageBox.Show("Deseja excluir o registro?", "Aviso", MessageBoxButtons.YesNo);
-            //    if (d.ToString() == "Yes")
-            //    {
-            //        DALConexao dal = new DALConexao();
-            //        BLLUSuario bll = new BLLUSuario(dal);
-
-            //        bll.Desativar(Convert.ToInt32(dtDados.CurrentRow.Cells["CPF"].Value.ToString()));
-            //        this.MostrarDados(txtCpf.Text, txtNome.Text, Convert.ToInt32(cmbAtivo.SelectedValue), cmbCargo.SelectedText, Convert.ToInt32(cmbTipoUsuario.SelectedValue), Convert.ToInt32(cmbSexo.SelectedValue));
-            //    }
-            //}
-            //catch
-            //{
-
-            //    MessageBox.Show("Impossível excluir o registro. \n O registro está sendo utilizado em outra operação");
-
-            //}
-        }
-
+        #endregion
+        #region Botões do Cadastro
         private void btnSalvar_Click(object sender, EventArgs e)
         {
             try
@@ -362,7 +429,8 @@ namespace HelpDesk.Desktop
                 modelo.Nome = txtNomeEdit.Text;
                 modelo.DtNasc = Convert.ToDateTime(txtDtNascEdit.Text);
                 modelo.Telefone = txtTelefoneEdit.Text;
-                modelo.Ramal = Convert.ToInt32(txtRamalEdit.Text == "" ? 0 : Convert.ToInt32(txtRamalEdit.Text));
+                modelo.TelefoneEmpresa = txtTelefoneEmpresa.Text;
+                modelo.Ramal = string.IsNullOrEmpty(txtRamalEdit.Text) ? default(int?) : Convert.ToInt32(txtRamalEdit.Text);
                 modelo.TelefoneCelular = txtCelularEdit.Text;
                 modelo.Email = txtEmailEdit.Text;
                 modelo.SexoId = Convert.ToInt32(cmbSexoEdit.SelectedValue);
@@ -371,25 +439,54 @@ namespace HelpDesk.Desktop
                 modelo.CNPJ = txtCNPJEdit.Text;
                 modelo.DtFundacao = Convert.ToDateTime(txtDtFundacaoEdit.Text);
                 modelo.Cargo = txtCargoEdit.Text;
-                DALConexao dal = new DALConexao();
                 BLLPessoa bll = new BLLPessoa(dal);
 
-                if (this.operacao == "inserir")
+                ValidarCampos(modelo);
+
+                Usuario modelUser = new Usuario();
+
+                modelUser.CPF = txtCpfEdit.Text;
+                modelUser.TipoUsuarioId = tipoPessoa;
+                modelUser.Senha = GeraSenha();
+
+                BLLUSuario bllUser = new BLLUSuario(dal);
+
+                if (this.operacao == "InserirEndereco")
                 {
                     bll.Incluir(modelo);
-                    MessageBox.Show("Dados cadastrados com sucesso!");
+                    bllUser.IncluirUsuario(modelUser);
+                    this.operacao = "editar";
+                }
+
+
+                else if (this.operacao == "inserir")
+                {
+                    if (dtEndereco.SelectedRows.Count > 0)
+                    {
+                        bll.Incluir(modelo);
+                        bllUser.IncluirUsuario(modelUser);
+                        MessageBox.Show("Dados cadastrados com sucesso!");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cadastre pelo menos um endereço");
+                        tabDados.SelectedTab =tabPageEndereco;
+                    }
+                    tabControlBusca.SelectedTab = tabPageBusca;
+                    limpartela(tabPageCadastro.Controls);
+
                 }
                 else
                 {
+                    if (this.operacao == "editar" || this.operacao == "editarEndereco")
+                    {
+                        bll.Alterar(modelo);
+                        MessageBox.Show("Dados atualizados com sucesso!");
+                        tabControlBusca.SelectedTab = tabPageBusca;
+                        limpartela(tabPageCadastro.Controls);
+                    }
 
-                    bll.Alterar(modelo);
-                    MessageBox.Show("Dados atualizados com sucesso!");
                 }
-                dtEndereco.DataSource = "";
-                dtEndereco.Refresh();
-                dtEndereco.Update();
-                tabControlBusca.SelectedTab = tabPageBusca;
-                limpartela(tabPageCadastro.Controls);
             }
             catch (Exception erro)
             {
@@ -397,61 +494,11 @@ namespace HelpDesk.Desktop
                 MessageBox.Show(erro.Message);
             }
         }
-
-        private void dtEndereco_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            operacao = "editarEndereco";
-            if (dtEndereco.SelectedRows.Count > 0)
-            {
-                btnNovoEndereco.Enabled = false;
-                btnAdicionar.Enabled = true;
-                cmbTipo.SelectedValue = Convert.ToInt32(dtEndereco.CurrentRow.Cells["TipoEnderecoId"].Value.ToString());
-                txtCEPEdit.Text = dtEndereco.CurrentRow.Cells["CEP"].Value.ToString();
-                txtEnderecoEdit.Text = dtEndereco.CurrentRow.Cells["Logradouro"].Value.ToString();
-                txtNumeroEdit.Text = dtEndereco.CurrentRow.Cells["Numero"].Value.ToString();
-                txtComplementoEdit.Text = dtEndereco.CurrentRow.Cells["Complemento"].Value.ToString();
-                txtBairroEdit.Text = dtEndereco.CurrentRow.Cells["Bairro"].Value.ToString();
-                txtCidadeEdit.Text = dtEndereco.CurrentRow.Cells["Cidade"].Value.ToString();
-                txtEstadoEdit.Text = dtEndereco.CurrentRow.Cells["UF"].Value.ToString();
-                btnAdicionar.Enabled = true;
-                btnNovoEndereco.Enabled = true;
-                btnExcluirEndereco.Enabled = true;
-            }
-        }
-
-        private void btnNovoEndereco_Click(object sender, EventArgs e)
-        {
-            operacao = "InserirEndereco";
-            limpartelaEndereco(panelEndereco.Controls);
-            btnAdicionar.Enabled = false;
-            btnNovoEndereco.Enabled = true;
-        }
-
-
-        private void limpartelaEndereco(Control.ControlCollection controles)
-        {
-            foreach (Control ctrl in controles)
-            {
-                //Se o contorle for um TextBox...
-                if (ctrl is TextBox)
-                {
-                    ((TextBox)(ctrl)).Text = String.Empty;
-                }
-
-                if (ctrl is MaskedTextBox)
-                {
-                    ((MaskedTextBox)(ctrl)).Text = String.Empty;
-                }
-
-            }
-        }
-
         private void btnAdicionar_Click(object sender, EventArgs e)
         {
             try
             {
                 Endereco modelo = new Endereco();
-                modelo.EnderecoId = Convert.ToInt32(dtEndereco.CurrentRow.Cells["EnderecoId"].Value);
                 modelo.CPF = Convert.ToString(txtCpfEdit.Text);
                 modelo.TipoEnderecoId = Convert.ToInt32(cmbTipo.SelectedValue);
                 modelo.CEP = Convert.ToString(txtCEPEdit.Text);
@@ -465,21 +512,29 @@ namespace HelpDesk.Desktop
                 DALConexao dal = new DALConexao();
                 BLLEndereco bll = new BLLEndereco(dal);
 
-                if (this.operacao == "inserirEndereco")
+                ValidarCampos(modelo);
+
+                if (this.operacao == "InserirEndereco")
                 {
+                    btnSalvar_Click(sender, e);
                     bll.Incluir(modelo);
                     limpartelaEndereco(panelEndereco.Controls);
                     CarregarEndereco();
-
+                    btnSalvar.Enabled = true;
                     MessageBox.Show("Dados cadastrados com sucesso!");
                 }
                 else if (this.operacao == "editarEndereco")
                 {
+                    modelo.EnderecoId = Convert.ToInt32(dtEndereco.CurrentRow.Cells["EnderecoId"].Value);
                     bll.Alterar(modelo);
                     limpartelaEndereco(panelEndereco.Controls);
                     CarregarEndereco();
+                    btnSalvar.Enabled = true;
                     MessageBox.Show("Dados atualizados com sucesso!");
                 }
+                btnAdicionar.Enabled = false;
+                btnNovoEndereco.Enabled = true;
+                dtDados.Enabled = true;
 
             }
             catch (Exception erro)
@@ -488,22 +543,23 @@ namespace HelpDesk.Desktop
                 MessageBox.Show(erro.Message);
             }
 
-            finally
-            {
-                btnAdicionar.Enabled = false;
-                btnNovoEndereco.Enabled = true;
-                dtDados.Enabled = true;
-            }
+
 
         }
-
         private void btnCancelarEndereco_Click(object sender, EventArgs e)
         {
             limpartelaEndereco(panelEndereco.Controls);
             btnAdicionar.Enabled = false;
             btnNovoEndereco.Enabled = true;
         }
-
+        private void btnNovoEndereco_Click(object sender, EventArgs e)
+        {
+            operacao = "InserirEndereco";
+            limpartelaEndereco(panelEndereco.Controls);
+            btnAdicionar.Enabled = true;
+            btnNovoEndereco.Enabled = true;
+            CarregarTipoEndereco();
+        }
         private void btnExcluirEndereco_Click(object sender, EventArgs e)
         {
             try
@@ -528,5 +584,50 @@ namespace HelpDesk.Desktop
 
             }
         }
+        #endregion
+        private void txtCpfEdit_Leave(object sender, EventArgs e)
+        {
+            if (txtCpfEdit != null)
+            {
+                if (ValidacaoCampos.IsCpf(txtCpfEdit.Text))
+                {
+
+                }
+                else
+                {
+                    MessageBox.Show("CPF inválido.");
+                }
+            }
+
+        }
+
+        private void txtCNPJEdit_Leave(object sender, EventArgs e)
+        {
+            if (txtCNPJEdit != null)
+            {
+                if (ValidacaoCampos.IsCnpj(txtCNPJEdit.Text))
+                {
+
+                }
+                else
+                {
+                    MessageBox.Show("CNPJ inválido.");
+                }
+            }
+        }
+
+        private void dtEndereco_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            dtEndereco.DefaultCellStyle.Font = new Font("Tohoma", 10);
+            dtEndereco.Columns["CEP"].Width = 70;
+            dtEndereco.Columns["Logradouro"].Width = 200;
+            dtEndereco.Columns["Numero"].Width = 50;
+            dtEndereco.Columns["Numero"].HeaderText = "Nº";
+            dtEndereco.Columns["Complemento"].Width = 100;
+            dtEndereco.Columns["Bairro"].Width = 100;
+            dtEndereco.Columns["Cidade"].Width = 160;
+            dtEndereco.Columns["UF"].Width = 30;
+        }
     }
+
 }

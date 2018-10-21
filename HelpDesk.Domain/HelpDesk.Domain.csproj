@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,10 +42,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Modelo\Endereco.cs" />
+    <Compile Include="Modelo\Equipamento.cs" />
     <Compile Include="Modelo\EstadoCivil.cs" />
+    <Compile Include="Modelo\Marca.cs" />
     <Compile Include="Modelo\Pessoa.cs" />
     <Compile Include="Modelo\Sexo.cs" />
     <Compile Include="Modelo\TipoEndereco.cs" />
+    <Compile Include="Modelo\TipoEquipamento.cs" />
     <Compile Include="Modelo\TipoPessoa.cs" />
     <Compile Include="Modelo\TipoUsuario.cs" />
     <Compile Include="Modelo\Usuario.cs" />

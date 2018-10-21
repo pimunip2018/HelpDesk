@@ -1,6 +1,8 @@
 ﻿using Helpdesk.Infrastructure.Data;
+using HelpDesk.Domain.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -29,10 +31,24 @@ namespace HelpDesk.BLL
             return Logar;
         }
 
-        public void Desativar(int cpf)
+        public void AlterarUsuario(Usuario modelo)
         {
             DALUsuario DalObj = new DALUsuario(Conexao);
-            DalObj.Desativar(cpf);
+            DalObj.AlterarUsuario(modelo);
+        }
+
+        public void IncluirUsuario(Usuario model)
+        {
+            DALUsuario DalObj = new DALUsuario(Conexao);
+            DalObj.IncluirUsuario(model);
+        }
+
+        
+        public DataTable Localizar(string cpf, string nome)
+        { 
+            DALUsuario DalObj = new DALUsuario(Conexao);
+            return DalObj.Localizar(cpf, nome);
+
         }
     }
 }

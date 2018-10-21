@@ -2,6 +2,7 @@
 using HelpDesk.Domain.Modelo;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -46,22 +47,19 @@ namespace HelpDesk.BLL
             DalObj.Alterar(modelo);
         }
 
-        public void Excluir(int id)
+        public void Desativar(string cpf)
         {
             DALPessoa DalObj = new DALPessoa(Conexao);
-            DalObj.Excluir(id);
+            DalObj.Desativar(cpf);
         }
 
-        public DataTable Localizar(string cpf, string nome, int bloquado, string cargo, int tipousuario, int sexo)
+        public DataTable Localizar(string cpf, string nome, int bloquado,int tipousuario, int sexo)
         {
             DALPessoa DalObj = new DALPessoa(Conexao);
-            return DalObj.Localizar(cpf, nome, bloquado, cargo, tipousuario, sexo);
+            return DalObj.Localizar(cpf, nome, bloquado, tipousuario, sexo);
 
         }
-        public TipoUsuario CarregaPessoaPF(int id)
-        {
-            DALPessoa DalObj = new DALPessoa(Conexao);
-            return DalObj.CarregaPessoaPF(id);
-        }
+
+       
     }
 }

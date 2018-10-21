@@ -35,17 +35,11 @@
     <Reference Include="Correios.Net, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Correios.CEP.Net.1.1.6\lib\Correios.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.900.148\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
@@ -55,6 +49,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.DirectoryServices" />
@@ -73,6 +68,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmEquipamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEquipamento.Designer.cs">
+      <DependentUpon>frmEquipamento.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCadastroPessoa.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +100,36 @@
     </Compile>
     <Compile Include="frmConsultaTipoPessoa.Designer.cs">
       <DependentUpon>frmConsultaTipoPessoa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEditarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEditarUsuario.Designer.cs">
+      <DependentUpon>frmEditarUsuario.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMarca .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMarca .Designer.cs">
+      <DependentUpon>frmMarca .cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmTipoEquipamento.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTipoEquipamento.Designer.cs">
+      <DependentUpon>frmTipoEquipamento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUsuarioBusca.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUsuarioBusca.Designer.cs">
+      <DependentUpon>frmUsuarioBusca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmUsuarios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmUsuarios.Designer.cs">
+      <DependentUpon>frmUsuarios.cs</DependentUpon>
     </Compile>
     <Compile Include="frmHelpDesk.cs">
       <SubType>Form</SubType>
@@ -130,6 +161,12 @@
     <Compile Include="frmRelatorioUsuario.Designer.cs">
       <DependentUpon>frmRelatorioUsuario.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTipoPessoa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTipoPessoa.Designer.cs">
+      <DependentUpon>frmTipoPessoa.cs</DependentUpon>
+    </Compile>
     <Compile Include="help_deskDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -144,6 +181,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
+    <EmbeddedResource Include="frmEquipamento.resx">
+      <DependentUpon>frmEquipamento.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmCadastroPessoa.resx">
       <DependentUpon>frmCadastroPessoa.cs</DependentUpon>
     </EmbeddedResource>
@@ -159,6 +199,21 @@
     <EmbeddedResource Include="frmConsultaTipoPessoa.resx">
       <DependentUpon>frmConsultaTipoPessoa.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmEditarUsuario.resx">
+      <DependentUpon>frmEditarUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMarca .resx">
+      <DependentUpon>frmMarca .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTipoEquipamento.resx">
+      <DependentUpon>frmTipoEquipamento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUsuarioBusca.resx">
+      <DependentUpon>frmUsuarioBusca.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUsuarios.resx">
+      <DependentUpon>frmUsuarios.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmHelpDesk.resx">
       <DependentUpon>frmHelpDesk.cs</DependentUpon>
     </EmbeddedResource>
@@ -173,6 +228,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmRelatorioUsuario.resx">
       <DependentUpon>frmRelatorioUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTipoPessoa.resx">
+      <DependentUpon>frmTipoPessoa.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Produtos.resx">
       <DependentUpon>Produtos.cs</DependentUpon>
@@ -262,6 +320,8 @@
     <None Include="Resources\localizar_pq.fw.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Help Manager.png" />
+    <None Include="Resources\recycle.png" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

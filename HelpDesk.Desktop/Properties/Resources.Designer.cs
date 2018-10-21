@@ -103,6 +103,16 @@ namespace HelpDesk.Desktop.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Help_Manager {
+            get {
+                object obj = ResourceManager.GetObject("Help Manager", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap localizar_fw {
             get {
                 object obj = ResourceManager.GetObject("localizar.fw", resourceCulture);
@@ -136,6 +146,16 @@ namespace HelpDesk.Desktop.Properties {
         internal static System.Drawing.Bitmap primeiro {
             get {
                 object obj = ResourceManager.GetObject("primeiro", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap recycle {
+            get {
+                object obj = ResourceManager.GetObject("recycle", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

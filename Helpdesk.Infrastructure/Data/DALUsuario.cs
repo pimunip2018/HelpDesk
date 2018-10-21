@@ -32,19 +32,46 @@ namespace Helpdesk.Infrastructure.Data
 
         }
 
-        public void Desativar(int cpf)
+        public void AlterarUsuario(Usuario modelo)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = Conexao.ObjetoConexao;
-            cmd.CommandText = "[dbo].[spUsuarioDelete]";
+            cmd.CommandText = "[dbo].[spUsuarioUpdate]";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@Cpf", cpf);
+            cmd.Parameters.AddWithValue("@Cpf", modelo.CPF);
+            cmd.Parameters.AddWithValue("@senha", modelo.Senha);
+            cmd.Parameters.AddWithValue("@bloqueado", modelo.Bloqueado);
+            cmd.Parameters.AddWithValue("@tentativas", modelo.Tentativa);
             Conexao.Conectar();
             cmd.ExecuteNonQuery();
             Conexao.Desconectar();
         }
 
-       
+        public void IncluirUsuario(Usuario model)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = Conexao.ObjetoConexao;
+            cmd.CommandText = "[dbo].[spUsuarioInsert]";
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@cpf", model.CPF);
+            cmd.Parameters.AddWithValue("@tipoUsuarioId", model.TipoUsuarioId);
+            cmd.Parameters.AddWithValue("@senha", model.Senha);
+            Conexao.Conectar();
+            cmd.ExecuteNonQuery();
+            Conexao.Desconectar();
+        }
 
+        public DataTable Localizar(string cpf, string nome)
+        {
+
+            DataTable tabela = new DataTable();
+            SqlCommand cm = new SqlCommand("[dbo].[spUsuarioLocaliza]", Conexao.Conectar());
+            cm.CommandType = CommandType.StoredProcedure;
+            cm.Parameters.AddWithValue("@cpf", Convert.ToString(cpf));
+            cm.Parameters.AddWithValue("@nome", Convert.ToString(nome));
+            SqlDataAdapter da = new SqlDataAdapter(cm);
+            da.Fill(tabela);
+            return tabela;
+        }
     }
 }
